@@ -1,3 +1,6 @@
+import React,{useState,useEffect} from 'react';
+import noteService from '../services/notes';
+
 const Note = ({ mynote, handleDelete, handleChange}) => {
     let textcolor = "notimportant";
     if(mynote.important){
@@ -6,7 +9,7 @@ const Note = ({ mynote, handleDelete, handleChange}) => {
         textcolor ="notimportant";
     }
     return (
-        <li onClick={e => handleChange(e, mynote.id)} className={textcolor}>{mynote.content}
+        <li onClick={e => handleChange(e, mynote.id)} className={textcolor}>Text!{mynote.content}
         <button onClick={e => handleDelete (e, mynote.id)}>Poista</button>
         </li>
     )
@@ -18,7 +21,7 @@ const Notes = ({ mynotes, setNotes}) => {
         noteService.remove(id)
         .then(resp => setNotes(mynotes.filter(n => n.id !== id)))
     }
-}
+
 const handleChange = (e, id) => {
     e.stopPropagation();
     const tempNote = mynotes.filter(n => n.id === id)[0]
@@ -38,4 +41,8 @@ return (
             {mynotes.map(note => <Note handleChange={handleChange} handleDelete={handleDelete} mynote = {note} key = {note.id} />)}
         </ul>
     </div>
+    
 )
+}
+
+export default Notes;
