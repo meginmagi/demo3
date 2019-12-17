@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react';
+import '../App.css';
 import noteService from '../services/notes';
 
 const Note = ({ mynote, handleDelete, handleChange}) => {

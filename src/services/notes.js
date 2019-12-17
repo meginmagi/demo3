@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3001/notes'
+const baseUrl = 'http://localhost:3002/notes'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
     return request.then(response => response.data)
 }
 
-const add = newNote => {
-    const request = axios.post(baseUrl, newNote)
+const add = testNote => {
+    const request = axios.post(baseUrl, testNote)
     return request.then(response => response.data)
 }
 

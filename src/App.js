@@ -14,33 +14,50 @@ function App() {
   
 
   const getNotes = () => {
-    console.log("starting effect");
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        console.log("promise fulfilled");
-        setNotes(response.data);
-      })
+    noteService
+    .getAll()
+    .then(allNotes => {
+      setNotes(allNotes);
+    })
   };
-  
-  useEffect(getNotes,[]);
-  console.log("ready", notes);
+  //Muistiinpanot haetaan alussa
+  useEffect(getNotes, []);
 
-  // const addNote = event => {
-  //   const testNote = {
-  //     content: "Remember remember the 5th of November",
-  //     date: "2019-11-5TU00:00:00.000Z",
-  //     important: true
-  //   };
-  //   axios
-  // }
+  const addNote = event => {
+    const now = new Date();
+    event.preventDefault();
+    const testNote = {
+      content: newNote,
+      date: now.toISOString(),
+      important: newImportance
+    };
+    noteService.add(testNote)
+    .then(note => {
+    let tempNotes = notes.concat(note);
+    setNotes(tempNotes);
+    setNewNote("");
+    setNewImportance("False");
+    })
+  }
+
+ 
   return (
-      <div>
-        <p>Hello!</p>
-        <NewNote newNote={newNote} setNewNote={setNewNote} newImportance={newImportance} setNewImportance={setNewImportance} />
-        <Notes newNote={newNote} setNewNote={setNewNote} />
-      </div>
-  )
-}
-
+    <div className="App">
+      <header>
+        <div class="App-header">
+          JSON server with notes
+        </div>
+        <div class="notesBG">
+          <NewNote submitHandler={addNote} newNote={newNote} setNewNote={setNewNote} newImportance={newImportance} setNewImportance={setNewImportance}/>
+          
+          <h2>Muistiinpanot</h2>
+          <div class="list">
+            <Notes mynotes={notes} setNotes={setNotes}/>
+            <br />
+          </div>
+        </div>
+      </header>
+    </div>
+  );
+ }
 export default App;
